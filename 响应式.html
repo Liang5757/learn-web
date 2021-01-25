@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>双向数据绑定</title>
+</head>
+
+<body>
+<input id="example" value="">
+<script>
+
+  class Vue{
+    constructor(options) {
+      this.$options = options;
+      this._test = this.$options.test;
+      this.observe(this._test);
+      //实例化收集器
+      this.dep = new Dep();
+      this.ele = this.getDom(options.el);
+
+      this.setValue(this.ele,this._test['value']);
+    }
+    //设置input输入框的值
+    setValue(el,v) {
+      el.addEventListener('click',function(){
+        console.log(app._test['value'])
+      })
+      let _this = this;
+      el.setAttribute('value', v);
+      new Watcher(this._test, 'value',function (newValue) {
+        if (v != newValue) {
+          el.setAttribute('value', _this._test['value'])
+        } else {
+          return;
+        }
+      })
+    }
+    //获取dom元素
+    getDom(el) {
+      let ele = document.querySelector(this.$options.el);
+      return ele;
+    }
+    //数据拦截
+    //监听data数据
+    observe(data) {
+      for (let key in data) {
+        //监听data所有数据
+        this._defineProperty(data, key);
+      }
+    }
+    _defineProperty(obj,key) {
+      let _this = this;
+      let value = obj[key];
+      Object.defineProperty(obj, key, {
+        configurable: true,
+        enumerable: true,
+        get() {
+          if (Dep.target) {
+            console.log(Dep.target)
+            //添加订阅者
+            _this.dep.addSub(Dep.target);
+          }
+          return value;
+        },
+        set(newValue) {
+          console.log(newValue);
+          if (newValue !== value) {
+            value = newValue;
+            //发布订阅
+            _this.dep.notify(newValue, key);
+          } else {
+            return;
+          }
+        }
+      })
+    }
+  }
+  //发布订阅
+  //创建收集器
+  class Dep {
+    constructor() {
+      this.subs = [];
+    };
+    //添加订阅者
+    addSub(sub) {
+      this.subs.push(sub);
+    };
+    //发布订阅
+    notify(newValue) {
+      this.subs.forEach(sub => {
+        sub.update(newValue);
+      })
+    }
+  }
+  //订阅者
+  class Watcher {
+    constructor(data,key, callback) {
+      Dep.target = this;
+      //自动触发get方法
+
+      data[key];
+      this.callback = callback;
+      Dep.target = null;
+    };
+    update(newValue) {
+      this.callback(newValue);
+    }
+  }
+
+  let app = new Vue({
+    el: '#example',
+    test:{
+      value:1
+    }
+  })
+  setTimeout(function () {
+    app._test['value'] = '2';
+  },1090)
+</script>
+
+</body>
+
+</html>

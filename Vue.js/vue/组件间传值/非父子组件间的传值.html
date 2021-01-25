@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div id="app">
+    <child content="click Dell"></child>
+    <child content="click Tom"></child>
+</div>
+<script src="../../js/vue.js"></script>
+<script>
+    // 给Vue的原形对象添加全局Vue实例，在这个实例中传值
+    Vue.prototype.bus = new Vue();
+
+    Vue.component('child', {
+        data () {
+            return {
+                selfContent: this.content,
+            }
+        },
+        props: {
+            content: String,
+        },
+        template: "<div @click='handleClick'>{{selfContent}}</div>",
+        methods: {
+            handleClick () {
+                this.bus.$emit('change', this.content);
+            }
+        },
+        mounted () {
+            let _this = this;
+            // 监听bus实例上的change事件
+            this.bus.$on('change', function (msg) {
+                // _this为child组件的实例
+                _this.selfContent = msg;
+            })
+        }
+    });
+
+    let vm = new Vue({
+        el: "#app",
+    });
+</script>
+</body>
+</html>

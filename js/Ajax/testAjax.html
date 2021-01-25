@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Ajax</title>
+</head>
+<body>
+    <input type="button" id="test" value="test" onclick="ajaxMain('testAjax.txt')" />
+    <div id="vv">test ajax</div>
+    <script>
+        //创建XMLHttpRequest对象并返回
+        function getRequest() {
+            let request = null;
+            if (window.XMLHttpRequest) {
+                request = new XMLHttpRequest() ;
+            }
+            else if (window.ActiveXObject) {
+                request = new ActiveXObject('Microsoft.XMLHTTP');
+            }
+            else {
+                alert("您的浏览器不支持ajax");
+                return null;
+            }
+            return request;
+        }
+
+        function ajaxMain(requestUrl) {
+            let xhr = getRequest();
+
+            //若对象创建成功
+            if (xhr) {
+                xhr.open('GET', requestUrl, true);
+                xhr.onreadystatechange = function() {
+                    if (xhr.readyState === 4) {
+                        if (xhr.status === 200) {
+                            document.getElementById('vv').innerHTML = xhr.responseText;
+                        }
+                    }
+                };
+                xhr.send();
+            }
+            else {
+                alert("error");
+            }
+        }
+    </script>
+</body>
+</html>

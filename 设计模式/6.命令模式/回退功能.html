@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>回退功能</title>
+</head>
+<body>
+<button id="replay">播放录像</button>
+
+<script>
+  let Ryu = {
+    attack() {
+      console.log("攻击");
+    },
+    defense() {
+      console.log("防御");
+    },
+    jump() {
+      console.log("跳跃");
+    },
+    crouch() {
+      console.log("蹲下");
+    },
+  }
+
+  let makeCommand = function (receiver, state) {
+    return receiver[state];
+  }
+
+  let commands = {
+    "119": "jump", // w
+    "115": "crouch", // s
+    "97": "defense", // a
+    "100": "attack", // d
+  }
+
+  let commandStack = []; // 保存命令的堆栈
+
+  document.onkeypress = function (e) {
+    let keyCode = e.keyCode;
+    let command = makeCommand(Ryu, commands[keyCode]);
+
+    if (command) {
+      command();
+      commandStack.push(command);
+    }
+  }
+
+  document.getElementById("replay").onclick = function () { // 点击播放录像
+    let command;
+    while (command = commandStack.shift()) { // 从堆栈获取此前的命令并执行
+      command();
+    }
+  }
+</script>
+</body>
+</html>

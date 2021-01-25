@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <div class="container">
+        <form class="add-comment">
+            <textarea class="comment-text"></textarea>
+            <button>Post comment</button>
+        </form>
+        <div class="comment"></div>
+    </div>
+
+    <script src="https://cdn.bootcss.com/dompurify/2.0.3/purify.js"></script>
+    <script>
+        const addCommentForm = document.querySelector('.add-comment');
+        const textarea = document.querySelector('.comment-text');
+        const commentDiv = document.querySelector('.comment');
+        const user = 'Mary';
+
+        function sanitize (strings, ...values) {
+            const dirty = strings.reduce((perv, curr, i) => `
+                ${perv}${curr}${values[i] || ''}
+            `, '');
+            console.log(dirty);
+            return DOMPurify.sanitize(dirty);
+        }
+
+        addCommentForm.addEventListener('submit', function (event) {
+            event.preventDefault();
+            const newComment = textarea.value.trim();
+            if (newComment) {
+                commentDiv.innerHTML = `
+                    <div class=" comment-header">${user}</div>
+                    <div class="comment-body">${textarea.value}</div>
+                `;
+                textarea.value = ``;
+            }
+        })
+    </script>
+</body>
+</html>

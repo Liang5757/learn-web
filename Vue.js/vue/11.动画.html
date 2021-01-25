@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        /* 过渡效果 */
+        .slide-fade-enter-active {
+            transition: all .3s ease;
+        }
+        .slide-fade-leave-active {
+            transition: all .8s cubic-bezier(1.0, 0.5, 0.8, 1.0);
+        }
+        .slide-fade-enter, .slide-fade-leave-to
+            /* .slide-fade-leave-active for below version 2.1.8 */ {
+            transform: translateX(10px);
+            opacity: 0;
+        }
+
+        /* 动画效果 */
+        .bounce-enter-active {
+            animation: bounce-in 0.5s;
+        }
+        .bounce-leave-active {
+            animation: bounce-in 0.5s reverse;
+        }
+
+        @keyframes bounce-in {
+            0% {
+                transform: scale(0);
+            }
+            50% {
+                transform: scale(1.5);
+            }
+            100% {
+                transform: scale(1);
+            }
+        }
+    </style>
+</head>
+<body>
+<div id="app">
+    <button @click="isShow = !isShow">toggle</button>
+    <!-- 如果设置name属性，css属性类名为{name}-enter-active，否则为默认的v-enter-active -->
+    <transition name="slide-fade">
+        <p v-if="isShow">过渡</p>
+    </transition>
+
+    <button @click="isShow = !isShow">toggle</button><br>
+    <transition name="bounce">
+    <!-- 自己试验p标签只能放长文字，否则字体向左右移动，解决方法 style:inline-block，又尝试了span，无动画效果-->
+        <p v-if="isShow" style="display:inline-block;">动画</p>
+    </transition>
+</div>
+
+<script src="../js/vue.js"></script>
+<script>
+    let vm = new Vue({
+        el: '#app',
+        data () {
+            return {
+                isShow: true,
+            }
+        },
+    });
+</script>
+</body>
+</html>

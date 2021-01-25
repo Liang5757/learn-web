@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<div id="app">
+    <h2>显示格式化的当前日期时间</h2>
+    <p>{{time}}</p>
+    <p>最完整的: {{time | dateString}}</p>
+    <p>年月日: {{time | dateString('YYYY-MM-DD')}}</p>
+</div>
+
+<script src="../js/vue.js"></script>
+<script src="https://cdn.bootcss.com/moment.js/2.24.0/locale/af.js"></script>
+<script>
+    // 定义过滤器
+    Vue.filter('dataString', function (value, format="YYYY-MM-DD HH:mm:ss") {
+        return moment(value).format(format);
+    });
+
+    let vm = new Vue({
+        el: '#app',
+        data: {
+            time: new Date(),
+        },
+
+        created () {
+            this.getCurrentTime();
+        },
+
+        methods: {
+            getCurrentTime () {
+                setInterval(() => {
+                    this.time = new Date();
+                }, 500);
+            }
+        }
+    });
+</script>
+</body>
+</html>

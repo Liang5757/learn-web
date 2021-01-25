@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Title</title>
+</head>
+<body>
+
+<div id="app">
+	<button @click.exact="onClick">A</button>
+</div>
+
+<script src="../js/vue.js"></script>
+<script>
+	const app = new Vue({
+		// 指定根element(选择器)
+		el: '#app',
+		// 双向数据绑定
+		data: {
+			username: 'Hello Vue!'
+		},
+		methods: {
+			onClick() {
+				console.log(666);
+			}
+		}
+	})
+</script>
+</body>
+</html>

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>table</title>
+
+    <style>
+        table {
+            margin: 200px;
+        }
+    </style>
+</head>
+<body>
+    <table border="1">
+        <!--
+            有一些情况下表格是非常的长的，
+                这时就需要将表格分为三个部分，表头，表格的主体，表格底部
+            在HTML中为我们提供了三个标签：
+                thead 表头
+                tbody 表格主体
+                tfoot 表格底部
+
+            这三个标签的作用，就来区分表格的不同的部分，他们都是table的子标签，
+                都需要直接写到table中，tr需要写在这些标签当中
+
+            thead中的内容，永远会显示在表格的头部
+            tfoot中的内容，永远都会显示表格的底部
+            tbody中的内容，永远都会显示表格的中间
+
+            如果表格中没有写tbody，浏览器会自动在表格中添加tbody
+            并且将所有的tr都放到tbody中，所以注意tr并不是table的子元素，而是tbody的子元素
+            通过table > tr 无法选中行 需要通过tbody > tr
+
+            表格的列数由td最多的那行决定
+        -->
+        <tr>
+            <td colspan="2">A1</td>
+            <td rowspan="2">A2</td>
+        </tr>
+        <tr>
+            <td rowspan="2">B1</td>
+            <td>B2</td>
+        </tr>
+        <tr>
+            <td colspan="2">C1</td>
+        </tr>
+    </table>
+</body>
+</html>

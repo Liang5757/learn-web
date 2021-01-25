@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<coverage generated="1605599613692" clover="3.2.0">
+  <project timestamp="1605599613692" name="All files">
+    <metrics statements="17" coveredstatements="17" conditionals="11" coveredconditionals="8" methods="6" coveredmethods="6" elements="34" coveredelements="31" complexity="0" loc="17" ncloc="17" packages="2" files="2" classes="2"/>
+    <package name="simpleDemo">
+      <metrics statements="12" coveredstatements="12" conditionals="6" coveredconditionals="4" methods="3" coveredmethods="3"/>
+      <file name="liang.js" path="D:\web_pj\learn\JestTest\simpleDemo\liang.js">
+        <metrics statements="12" coveredstatements="12" conditionals="6" coveredconditionals="4" methods="3" coveredmethods="3"/>
+        <line num="1" count="2" type="cond" truecount="1" falsecount="0"/>
+        <line num="2" count="2" type="cond" truecount="0" falsecount="1"/>
+        <line num="3" count="2" type="stmt"/>
+        <line num="4" count="1" type="stmt"/>
+        <line num="5" count="2" type="cond" truecount="1" falsecount="0"/>
+        <line num="6" count="2" type="cond" truecount="0" falsecount="1"/>
+        <line num="7" count="2" type="stmt"/>
+        <line num="8" count="1" type="stmt"/>
+        <line num="9" count="1" type="stmt"/>
+        <line num="10" count="1" type="stmt"/>
+        <line num="11" count="1" type="stmt"/>
+        <line num="12" count="1" type="cond" truecount="2" falsecount="0"/>
+      </file>
+    </package>
+    <package name="test asynchronous">
+      <metrics statements="5" coveredstatements="5" conditionals="5" coveredconditionals="4" methods="3" coveredmethods="3"/>
+      <file name="fetchData.js" path="D:\web_pj\learn\JestTest\test asynchronous\fetchData.js">
+        <metrics statements="5" coveredstatements="5" conditionals="5" coveredconditionals="4" methods="3" coveredmethods="3"/>
+        <line num="1" count="1" type="stmt"/>
+        <line num="2" count="1" type="stmt"/>
+        <line num="3" count="1" type="cond" truecount="1" falsecount="0"/>
+        <line num="4" count="4" type="stmt"/>
+        <line num="5" count="4" type="cond" truecount="3" falsecount="1"/>
+      </file>
+    </package>
+  </project>
+</coverage>

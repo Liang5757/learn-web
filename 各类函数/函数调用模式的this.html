@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Title</title>
+</head>
+<body>
+    <script>
+        let myObj = {
+            value: 1,
+        };
+
+        //当一个函数并非一个对象的属性而被调用时，this被绑定到全局对象
+        //这导致不能共享该方法对对象的访问权
+
+        myObj.double = function () {
+            let that = this;
+
+            let helper = function () {
+                that.value = Math.add(that.value, that.value);
+            };
+
+            helper();
+        }
+    </script>
+</body>
+</html>

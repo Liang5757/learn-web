@@ -1,0 +1,17 @@
+{
+  "name": "test-loader",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "webpack"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "force-strict-loader": "file:./force-strict-loader",
+    "webpack": "^4.31.0",
+    "webpack-cli": "^3.3.2"
+  }
+}

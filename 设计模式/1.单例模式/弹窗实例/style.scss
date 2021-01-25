@@ -1,0 +1,85 @@
+.message-box {
+  padding: 0 40px;
+
+  // 弹窗背景，即为阴影
+  .mask {
+    position: fixed;
+    // 比popout层低一层
+    z-index: 1000;
+    top: 0;
+    right: 0;
+    left: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.6);
+  }
+
+  // 设置弹窗样式
+  .dialog {
+    width: calc(100% - 96px);
+    flex-direction: column;
+    position: fixed;
+    // 设为最高层级
+    z-index: 5000;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    -webkit-transform: translate(-50%, -50%);
+    background-color: #fff;
+    border-radius: 12px;
+    max-height: 90%;
+    text-align: center;
+
+    // 消息内容
+    .dialog-bd {
+      color: #1d1d1d;
+      font-size: 15px;
+      line-height: 1.4;
+      font-family: PingFangSC-Medium, serif;
+      // 滚动条
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
+      word-wrap: break-word;
+      margin-bottom: 25px;
+      font-weight: 500;
+      min-height: 40px;
+      padding: 32px 24px 0;
+      display: flex;
+      display: -webkit-flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      flex-direction: column;
+    }
+    // 按钮
+    .dialog-ft {
+      position: relative;
+      line-height: 44px;
+      min-height: 4px;
+      font-size: 15px;
+      font-family: PingFangSC-Medium,PingFang SC,sans-serif;
+      width: 100%;
+      a {
+        display: block;
+        font-weight: 500;
+        color: #ff7c3e;
+        text-decoration: none;
+        // 点击后样式变化
+        &:active {
+          background-color: #ececec;
+          border-radius: 0 0 12px 12px;
+          // 防止长按出现蓝框
+          -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+        }
+      }
+      // 分割线
+      &:after {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: -50%;
+        width: 200%;
+        border-top: 1px solid #e6e6e6;
+        transform: scale(0.5);
+      }
+    }
+  }
+}

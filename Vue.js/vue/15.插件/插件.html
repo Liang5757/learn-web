@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<div id="app">
+    <p v-my-directive="msg"></p>
+</div>
+
+<script src="../../js/vue.js"></script>
+<script src="vue-myPlugin.js"></script>
+<script>
+    // 声明使用插件(安装插件: 调用插件的install())
+    Vue.use(myPlugin);
+
+    Vue.myGlobalMethods();
+
+    let vm = new Vue({
+        el: "#app",
+        data: {
+            msg: "This is a lowercase sentence"
+        }
+    });
+
+    vm.$myMethods();
+</script>
+</body>
+</html>

@@ -1,0 +1,4 @@
+2020-12-21T04:12:45.564Z error: ER_BAD_NULL_ERROR: Column 'aname' cannot be null
+2020-12-21T04:14:23.466Z error: ER_BAD_NULL_ERROR: Column 'aname' cannot be null
+2020-12-21T04:14:52.373Z error: ER_BAD_NULL_ERROR: Column 'aname' cannot be null
+2020-12-21T04:15:30.254Z error: ER_BAD_NULL_ERROR: Column 'aname' cannot be null

@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        .callout {
+            height:200px;
+            width:200px;
+            position: relative;
+            color:#fff;
+            background-color: #fbe3b9;
+            border: 1px solid #444;
+            padding:10px;
+        }
+
+        .callout::before {
+            content: "";
+            position: absolute;
+            top: -.4em;
+            left: 1em;
+            padding: .35em;
+            background: inherit;
+            border: inherit;
+            border-right: 0;
+            border-bottom: 0;
+            transform: rotate(45deg);
+        }
+    </style>
+</head>
+<body>
+    <h2>Your username:</h2>
+    <input type="text">
+    <div class="callout">
+        Only letter,numbers,underscores (-) and hyphens (-) allowed!
+    </div>
+</body>
+</html>

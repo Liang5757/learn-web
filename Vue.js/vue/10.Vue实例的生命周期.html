@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<!--
+    1. vue对象的生命周期
+      1). 初始化显示
+        * beforeCreate()
+        * created()
+        * beforeMount()
+        * mounted()
+      2). 更新状态
+        * beforeUpdate()
+        * updated()
+      3). 销毁vue实例: vm.$destroy()
+        * beforeDestroy()
+        * destroyed()
+    2. 常用的生命周期方法
+      created()/mounted(): 发送ajax请求, 启动定时器等异步任务
+      beforeDestroy(): 做收尾工作, 如: 清除定时器
+-->
+<div id="app">
+    <button @click="destroyVue">销毁vue实例</button>
+    <p title="鼠标停留在这，就会出现我哦！" v-if="isShow">等你发现彩蛋！</p>
+</div>
+<script src="../js/vue.js"></script>
+<script>
+    let vm = new Vue({
+        el: '#app',
+        data: {
+            isShow: true,
+        },
+
+        beforeCreate() {
+            console.log('beforeCreate()');
+        },
+
+        created() {
+            console.log('created()');
+        },
+
+        beforeMount() {
+            console.log('beforeMount()');
+        },
+
+        mounted () {    // 初始化显示后立即执行
+            this.intervalId = setInterval(() => {
+                console.log('mounted()');
+                this.isShow = !this.isShow;
+            }, 1000);
+        },
+
+        beforeUpdate() {
+            console.log('beforeUpdate()');
+        },
+        updated () {
+            console.log('updated()');
+        },
+
+        beforeDestroy() {
+            console.log('beforeDestroy()');
+            // 执行收尾的工作
+            clearInterval(this.intervalId);
+        },
+
+        destroyed() {
+            console.log('destroyed()');
+        },
+
+        methods: {
+            destroyVue () {
+                this.$destroy();
+            }
+        }
+    });
+</script>
+</body>
+</html>

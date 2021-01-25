@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div id="app">
+    姓: <input type="text" placeholder="First Name" v-model="firstName"><br>
+    名: <input type="text" placeholder="Last Name" v-model="lastName"><br>
+    <!--fullName1是根据fistName和lastName计算产生-->
+    姓名1(单向): <input type="text" placeholder="Full Name1" v-model="fullName1"><br>
+    姓名2(单向): <input type="text" placeholder="Full Name2" v-model="fullName2"><br>
+    姓名3(双向): <input type="text" placeholder="Full Name3" v-model="fullName3"><br>
+
+    <!-- 通过getter/setter实现对属性数据的显示和监视   -->
+    <!-- 计算属性存在缓存, 多次读取只执行一次getter计算 -->
+    <p>{{fullName1}}</p>
+    <p>{{fullName1}}</p>
+</div>
+<script src="../js/vue.js"></script>
+<script>
+    let vm = new Vue({
+        el: '#app',
+        data: {
+            firstName: "A",
+            lastName: "B",
+            fullName2: "A+B",
+        },
+        // 计算属性
+        computed: {
+            // 执行时间：初始化显示以及相关的data属性数据发生改变
+            // 键是修改的属性
+            fullName1 () {
+                // 返回值作为属性值
+                return this.firstName + " " + this.lastName;
+            },
+            // 双向绑定数据
+            fullName3: {
+                // 回调函数 计算并返回当前属性的值
+                get() {
+                    return this.firstName + "-" + this.lastName;
+                },
+
+                set(value) {
+                    const names = value.split('-');
+                    this.firstName = names[0];
+                    this.lastName = names[1];
+                }
+            }
+        },
+        // 监视属性
+        // Vue 实例将会在实例化时调用 $watch()，遍历 watch 对象的每一个属性。
+        watch: {
+            // 键是需要观察的表达式
+            firstName: function (value) {
+                this.fullName2 =  value + "+" + this.lastName;
+            },
+        }
+    });
+
+    // 监视方法
+    vm.$watch('lastName', function (value) {
+        this.fullName2 = this.firstName + "+" + value;
+    })
+</script>
+</body>
+</html>

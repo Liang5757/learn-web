@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<div id="app">
+    <input type="text" v-model="username">
+    <!-- 显示数据{{xxx}} -->
+    <p>hello {{username}}</p>
+</div>
+
+<script src="../js/vue.js"></script>
+<script>
+    const app = new Vue({
+        // 指定根element(选择器)
+        el: '#app',
+        // 双向数据绑定
+        data: {
+            username: 'Hello Vue!'
+        }
+    })
+</script>
+</body>
+</html>

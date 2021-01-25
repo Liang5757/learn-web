@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div id="app">
+    <table>
+        <!-- H5里tbody中必须要有tr，渲染时row变成table同级标签 -->
+        <!-- Vue中的is属性可以解决，既是tr又是row组件-->
+        <tbody>
+            <tr is="row"></tr>
+            <tr is="row"></tr>
+            <tr is="row"></tr>
+        </tbody>
+    </table>
+</div>
+
+<script src="../js/vue.js"></script>
+<script>
+    Vue.component('row', {
+        template: "<tr><td>this is row</td></tr>"
+    });
+
+    let vm = new Vue({
+        el: '#app'
+    })
+</script>
+</body>
+</html>

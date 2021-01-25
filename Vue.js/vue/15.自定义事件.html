@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div id="app">
+    <ul>
+        <!-- 监听子组件自定义的change事件，绑定父组件的handleChange方法 -->
+        <li ref="num1" is="count" @change="handleChange"></li>
+        <li ref="num2" is="count" @change="handleChange"></li>
+        <li>{{total}}</li>
+    </ul>
+</div>
+
+<script src="../js/vue.js"></script>
+<script>
+    // 一个点击自增的li
+    Vue.component('count', {
+        template: "<li @click=\"handleClick\">{{num}}</li>",
+        data () {
+            return {
+                num: 0,
+            }
+        },
+        methods: {
+            handleClick: function () {
+                this.num++;
+                // 触发自定义事件
+                this.$emit("change");
+            }
+        }
+    });
+
+    let vm = new Vue({
+        el: "#app",
+        data () {
+            return {
+                total: 0,
+            };
+        },
+        methods: {
+            handleChange: function () {
+                this.total = this.$refs.num1.num + this.$refs.num2.num;
+            }
+        }
+    });
+</script>
+</body>
+</html>

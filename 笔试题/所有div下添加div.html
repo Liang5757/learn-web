@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="IE=edge, chrome=1">
+  <link type="text/css" rel="styleSheet" href="test.css">
+</head>
+
+<body>
+</body>
+<script>
+  document.body.innerHTML = `
+<div id="a">
+  <div id="b"></div>
+</div>
+`
+
+  // 结果
+  // <div id="a">
+  //   <div id="b">
+  //     <div></div>
+  //   </div>
+  //   <div></div>
+  // </div>
+
+
+  function appendChildren(decorateDivFunction) {
+    let domList = document.querySelectorAll('div');
+    for (let dom of domList) {
+      dom.appendChild(document.createElement('div'));
+    }
+  }
+
+  appendChildren(div => {console.log(div.outerHTML);});
+  console.log(document.body.innerHTML);
+</script>
+</html>

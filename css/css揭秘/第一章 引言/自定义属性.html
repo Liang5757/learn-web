@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        /* 以--作为前缀的属性为自定义属性，类似预处理器的变量 */
+        /* 下面将会使ul的背景变成purple，rebeccapurple */
+        ul {
+            --accent-color: purple;
+        }
+
+        ol {
+            --accent-color: rebeccapurple;
+        }
+
+        li {
+            background: var(--accent-color);
+        }
+    </style>
+</head>
+<body>
+
+<ul>
+    <li>1</li>
+    <li>2</li>
+</ul>
+
+<ol>
+    <li>3</li>
+    <li>4</li>
+</ol>
+
+</body>
+</html>

@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>弹窗</title>
+  <meta name='viewport' content='width=device-width,initial-scale=1,user-scalable=no'/>
+  <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+<button id="btn">打开弹窗</button>
+<script>
+  // 通用的创建惰性单例模式
+  function getSingle(fn) {
+    let result;
+    return function () {
+      return result || (result = fn.apply(this, arguments));
+    }
+  }
+
+  // 创建弹窗并添加到body下，并用getSingle创建单例模式
+  let createDialog = getSingle(function () {
+    let div = document.createElement('div');
+    div.className = "message-box";
+    div.innerHTML = `
+      <div class="mask"></div>
+        <div class="dialog">
+        <div class="dialog-bd">这是一个弹窗哦</div>
+        <div class="dialog-ft">
+          <a href="javascript:" class="dialog-btn">确定</a>
+        </div>
+      </div>
+    `.trim();
+    div.style.display = "none";
+    document.body.appendChild(div);
+    return div;
+  })
+
+  document.getElementById("btn").onclick = function () {
+    let dialog = createDialog();
+    dialog.style.display = "block";
+  }
+
+  document.addEventListener("click", function (event) {
+    if (event.target.className === "dialog-btn") {
+      let dialog = createDialog();
+      console.log(1231);
+      dialog.style.display = "none";
+    }
+  })
+</script>
+</body>
+</html>

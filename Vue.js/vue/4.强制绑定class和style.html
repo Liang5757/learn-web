@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        .classA {
+            color: red;
+        }
+        .classB {
+            font-size: 18px;
+        }
+        .classC {
+            font-size: 20px;
+        }
+    </style>
+</head>
+<body>
+<div id="app">
+    <h2>1. class绑定: :class='xxx'</h2>
+    <p :class="myClass">xxx是字符串</p>
+    <p :class="{ classA: hasClassA, classB: hasClassB}">xxx是对象</p>
+    <p :class="['classA', 'classB']">xxx是数组</p>
+
+    <h2>2. style绑定</h2>
+    <!-- 当 v-bind:style 使用需要添加浏览器引擎前缀的 CSS 属性时，如 transform，Vue.js 会自动侦测并添加相应的前缀。-->
+    <p :style="{ color: activeColor, fontSize}">:style="{ color: activeColor, fontSize: fontSize + 'px' }"</p>
+    <button @click="update">更新</button>
+</div>
+<script src="../js/vue.js"></script>
+<script>
+    let vm =  new Vue({
+        el: "#app",
+        data: {
+            myClass: "classA",
+            hasClassA: false,
+            hasClassB: true,
+            activeColor: 'green',
+            fontSize: '20px'
+        },
+        methods: {
+            update () {
+                this.myClass = "classB";
+                this.hasClassA = true;
+                this.hasClassB = false;
+                this.activeColor = 'yellow';
+                this.fontSize =  '15px';
+            }
+        }
+    });
+</script>
+</body>
+</html>
