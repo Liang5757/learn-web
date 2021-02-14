@@ -1,6 +1,7 @@
 class UnionFind {
   constructor() {
     this.parent = new Map();
+    this.count = n;
   }
 
   // 查找元素所在集合
@@ -17,6 +18,7 @@ class UnionFind {
     const rootQ = this.find(q);
     if (rootP !== rootQ) {
       this.parent.set(this.find(p), this.find(q));
+      this.count--;
     }
   }
 }

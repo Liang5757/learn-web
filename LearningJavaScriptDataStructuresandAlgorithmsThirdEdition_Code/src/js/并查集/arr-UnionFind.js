@@ -1,6 +1,7 @@
 class UnionFind {
   constructor(n) {
     this.roots = new Array(n).fill(0).map((item, index) => index);
+    this.count = n;
   }
 
   find(element) {
@@ -17,6 +18,7 @@ class UnionFind {
 
     if (root1 !== root2) {
       this.roots[root1] = root2;
+      this.count--;
     }
   }
 }
