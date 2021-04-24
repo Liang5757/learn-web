@@ -1,0 +1,8 @@
+<script>
+  // b.html
+  window.onmessage = function(e) {
+    console.log('aa',e.data) //我爱你
+    e.source.postMessage('我不爱你', e.origin)
+ }
+
+</script>

@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>MVC</title>
+</head>
+<body>
+<ul id="userList"></ul>
+
+<script>
+  const users = [
+    {name: 'Peter', num: 123, priority: 1},
+    {name: 'Glenn', num: 456, priority: 1},
+    {name: 'Lucy', num: 789, priority: 1},
+  ];
+
+  class UserModel {
+    constructor () {
+      this._data = users;
+    }
+
+    // todo
+    updateUser (index) {
+      this._data[index].priority++;
+    }
+  }
+
+  class UserView {
+    constructor () {
+      this.container = document.querySelector('#userList');
+    }
+
+    render (users) {
+      // todo
+      this.container.innerHTML = "";
+      users.forEach(item => {
+        let li = document.createElement("li");
+        li.innerText = `User Name:${item.name}, User Number:${item.num}, User Priority: ${item.priority}`
+        this.container.appendChild(li);
+      })
+    }
+  }
+
+  class UserController {
+    constructor (model, view) {
+      this.model = model;
+      this.view = view;
+    }
+
+    init () {
+      this.view.render(users);
+      this.bindEvent();
+      // todo
+    }
+
+    bindEvent () {
+      // todo
+      this.view.container.addEventListener("click", e => {
+        if (e.target.tagName.toLowerCase() === "li") {
+          let index = Array.prototype.indexOf.call(e.target.parentNode.children, e.target);
+          this.model.updateUser(index);
+          this.view.render(users);
+        }
+      })
+    }
+  }
+
+  class App {
+    constructor () {
+      const userComponent = new UserController(new UserModel(), new UserView());
+      userComponent.init();
+    }
+  }
+
+  new App();
+</script>
+</body>
+</html>

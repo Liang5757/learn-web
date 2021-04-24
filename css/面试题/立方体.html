@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        .scene {
+            width: 300px;
+            height: 300px;
+            margin: 50px auto 0;
+            perspective: 1200px;
+        }
+
+        .cube {
+            position: relative;
+            width: 300px;
+            height: 300px;
+            transform-style: preserve-3d;
+            animation: linear example 10s infinite;
+        }
+
+        .cube::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            border: 3px dotted rgba(0, 0, 0, 0.25);
+            box-sizing: border-box;
+        }
+
+        .side {
+            position: absolute;
+            font-size: 20px;
+            font-weight: 600;
+            text-align: center;
+            line-height: 300px;
+            width: 300px;
+            height: 300px;
+            border: 5px solid #9aa;
+            background: rgba(221, 0, 0, 0.33);
+        }
+
+        .back {
+            transform: translateZ(-150px) rotateX(180deg);
+            background: rgba(32, 170, 151, 0.33);
+        }
+
+        .left {
+            transform: translateX(-150px) rotateY(90deg);
+            background: rgba(153, 153, 153, 0.33);
+        }
+
+        .right {
+            transform: translateX(150px) rotateY(90deg);
+            background: rgba(153, 153, 153, 0.33);
+        }
+
+        .top {
+            transform: translateY(-150px) rotateX(90deg);
+            background: rgba(105, 136, 190, 0.33);
+        }
+
+        .bottom {
+            transform: translateY(150px) rotateX(-90deg);
+            background: rgba(105, 136, 190, 0.33);
+        }
+
+        .front {
+            transform: translateZ(150px);
+            background: rgba(32, 170, 151, 0.33);
+
+        }
+
+        @keyframes example {
+            100% {
+                transform: rotateX(360deg);
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="scene">
+    <div class="cube">
+        <div class="side back">back</div>
+        <div class="side left">left</div>
+        <div class="side right">right</div>
+        <div class="side top">top</div>
+        <div class="side bottom">bottom</div>
+        <div class="side front">front</div>
+    </div>
+</div>
+</body>
+</html>

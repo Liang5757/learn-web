@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        .container {
+            width: 300px;
+            height: 200px;
+            border: 1px solid #efeff4;
+            background: #ffffff;
+            overflow: auto;
+        }
+
+        .card {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 150px;
+            background: #25bb9b;
+            margin: 10px;
+            color: #ffffff;
+            border-radius: 8px;
+        }
+    </style>
+</head>
+<body>
+<div class="container"></div>
+
+<script>
+  new InfiniteScroll({
+    // TODO: 请获取class=container的节点
+    el: document.getElementsByClassName("container")[0],
+    // 触发加载的距离底部的阈值，单位px
+    distance: 100,
+    call: (el, index) => {
+      // TODO: 请创建一个div节点，并将其插入到el节点中；该节点的class=card，内容为序号index
+      let div = document.createElement("div");
+      div.className = "card";
+      div.innerText = index;
+      el.appendChild(div);
+    }
+  });
+
+  function InfiniteScroll (param) {
+    const that = this;
+    const container = param.el;
+    const distance = +param.distance || 0;
+    if (!container) return;
+    that.index = 0;
+    // TODO: 请为container绑定scroll事件，回调为函数_handleScroll
+    container.addEventListener("scroll", _handleScroll);
+
+    function _handleScroll () {
+      const scrollTop = container.scrollTop;
+      const contentHeight = container.scrollHeight;
+      const height = container.clientHeight;
+      console.log(scrollTop, contentHeight, height);
+      // TODO: 请判断是否需要触发滚动到底部的回调
+      const shouldTrigger = contentHeight - height - scrollTop < distance || contentHeight === height;
+      if (!shouldTrigger) return;
+      // TODO: 请调用call回调，注意提供正确的参数
+      param.call(container, ++that.index);
+      _handleScroll();
+    }
+    _handleScroll();
+  }
+</script>
+</body>
+</html>

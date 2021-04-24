@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>拖拽</title>
+    <style>
+        .drag-box {
+            width: 200px;
+            height: 200px;
+            background-color: pink;
+        }
+    </style>
+</head>
+<body>
+<div class="drag-box"></div>
+
+<script>
+  // clientY 指的是距离可视页面左上角的距离
+  // pageY 指的是距离可视页面左上角的距离(不受页面滚动影响)
+  // screenY 指的是距离屏幕左上角的距离
+  // layerY 指的是找到它或它父级元素中最近具有定位的左上角距离
+  // offsetY 指的是距离它自己左上角的距离
+  let ele = document.getElementsByClassName("drag-box")[0];
+
+  class Drag {
+    _moveX; // reference move x
+    _moveY; // reference move y
+    _grabbed = false; // 是否处在拖拽状态
+
+    constructor (el) {
+      this.el = el;
+      this.events(el);
+    }
+
+    // 绑定事件
+    events (el) {
+      touchy(el, 'mousedown', this.grab.bind(this));
+      touchy(el, 'mousemove', this.move.bind(this));
+      touchy(el, 'mouseup', this.release.bind(this));
+    }
+
+    grab (e) {
+      this._moveX = e.x;
+      this._moveY = e.y;
+      this._grabbed = true;
+    }
+
+    move (e) {
+      if (this._grabbed) {
+        // 计算两次鼠标的位置差
+        let distance = {
+          x: e.x - this._moveX,
+          y: e.y - this._moveY,
+        };
+
+        // 移动目标元素
+        this.el.style.left = this.el.offsetLeft + distance.x + 'px';
+        this.el.style.top = this.el.offsetTop + distance.y + 'px';
+
+        // 保存本次鼠标位置
+        this._moveX = e.x;
+        this._moveY = e.y;
+      }
+    }
+
+    release () {
+      this._grabbed = false;
+    }
+  }
+
+  // 获取元素的位置，相对于视口位置
+  function getOffset (el) {
+    let rect = el.getBoundingClientRect();
+    return {
+      left: rect.left,
+      top: rect.top
+    };
+  }
+
+  function touchy (el, type, fn) {
+    let touch = {
+      mouseup: 'touchend',
+      mousedown: 'touchstart',
+      mousemove: 'touchmove',
+    };
+    let pointers = {
+      mouseup: 'pointerup',
+      mousedown: 'pointerdown',
+      mousemove: 'pointermove',
+    };
+    let microsoft = {
+      mouseup: 'MSPointerUp',
+      mousedown: 'MSPointerDown',
+      mousemove: 'MSPointerMove',
+    };
+    if (window.navigator.pointerEnabled) {
+      eventHandler(el, pointers[type], fn);
+    } else if (window.navigator.msPointerEnabled) {
+      eventHandler(el, microsoft[type], fn);
+    } else {
+      // eventHandler(el, touch[type], fn);
+      eventHandler(el, type, fn);
+    }
+  }
+
+  //事件处理程序
+  function eventHandler (elem, eventType, fn) {
+    // elem.attachEvent 兼容IE8及以下版本浏览器事件
+    // addEventListener 支持Chrome、FireFox、Opera、Safari、IE9.0及其以上版本都支持该函数
+    elem.addEventListener ? elem.addEventListener(eventType, fn, false) : elem.attachEvent('on' + eventType, fn);
+  }
+
+  new Drag(ele);
+</script>
+</body>
+</html>

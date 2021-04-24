@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        .editor {
+            font-size: 14px;
+            line-height: 1.5;
+            border-radius: 4px;
+            width: 200px;
+            height: 60px;
+            border: 1px solid #efeff4;
+            padding: 5px;
+            outline: 0;
+            resize: none;
+        }
+    </style>
+</head>
+<body>
+<textarea class="editor" placeholder="请输入内容"></textarea>
+
+<script>
+  let getStyle = function(dom, attr){
+    return dom.currentStyle ? dom.currentStyle[attr] : getComputedStyle(dom, false)[attr];
+  }
+
+  const autosize = {
+    bakEl: null,
+    init (textarea) {
+      const that = this;
+      if (!textarea) return;
+      // TODO: 请获取textarea的高度，并替换下面的null值
+      const height = parseFloat(getStyle(textarea, "height"));
+      // TODO: 请获取textarea的padding-top和padding-bottom值，并分别替换下面的null值
+      const padding = parseFloat(getStyle(textarea, "paddingTop")) + parseFloat(getStyle(textarea, "paddingBottom"));
+      // TODO: 请将textarea溢出元素内容区的内容设置为不可见
+      // TODO: 请为textarea绑定input事件，回调函数为_change
+      textarea.addEventListener("input", _change);
+      // TODO: 请为textarea绑定click事件，回调函数为_change
+      textarea.addEventListener("click", _change);
+      return _change;
+
+      function _change (e) {
+        const bakEl = that.copy(textarea, that.bakEl);
+        that.bakEl = bakEl;
+        // TODO: 请将textarea的值赋值给bakEl
+        bakEl.value = e.target.value;
+        // TODO: 请将bakEl的高度设置成 height px
+        bakEl.style.height = height;
+        // TODO: 请在页面body节点中插入bakEl节点
+        document.body.appendChild(bakEl);
+        let val = bakEl.scrollHeight - padding;
+        // console.log( bakEl.scrollHeight);
+        val <= height && (val = height);
+        // TODO: 请将textarea的高度设置成 val px
+        textarea.style.height = `${val}px`;
+        // TODO: 请在页面body节点中移除bakEl节点
+        document.body.removeChild(bakEl);
+      }
+    },
+    copy (el, bak) {
+      const attr = [
+        'direction', 'boxSizing', 'width', 'height', 'overflowX', 'overflowY',
+        'borderTopWidth', 'borderRightWidth', 'borderBottomWidth', 'borderLeftWidth', 'borderStyle',
+        'paddingTop', 'paddingRight', 'paddingBottom', 'paddingLeft',
+        'fontStyle', 'fontVariant', 'fontWeight', 'fontStretch', 'fontSize', 'fontSizeAdjust', 'lineHeight', 'fontFamily',
+        'textAlign', 'textTransform', 'textIndent', 'textDecoration',
+        'letterSpacing', 'wordSpacing', 'resize',
+        'tabSize', 'MozTabSize'];
+      bak = bak || el.cloneNode();
+      const style = bak.style;
+      const computed = this.style(el);
+      style.position = 'absolute';
+      style.visibility = 'hidden';
+      // TODO: 请将computed中所有的attr的样式复制到style中
+      for (let item of attr) {
+        style[item] = computed[item];
+      }
+      return bak;
+    },
+    style (el) {
+      return window.getComputedStyle(el);
+    }
+  }
+  // TODO: 请获取class=editor的节点，并替换下面的null值
+  autosize.init(document.getElementsByClassName("editor")[0]);
+</script>
+</body>
+</html>

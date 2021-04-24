@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+<script>
+  // index.html
+  function jsonp ({url, params, callback}) {
+    return new Promise((resolve, reject) => {
+      let script = document.createElement('script')   //创建脚本
+      window[callback] = function (data) {   //要接收参数的回调函数
+        resolve(data)
+        document.body.removeChild(script)
+      }
+      params = {...params, callback} // wd=b&callback=show
+      let arrs = []
+      for (let key in params) {    //参数聚合到URL中
+        arrs.push(`${key}=${params[key]}`)
+      }
+      script.src = `${url}?${arrs.join('&')}`  //设置脚本的src
+      //本质上就是通过url请求一个脚本的内容，请求到的内容直接放在script脚本内执行，只要后端返回的内容符合js语法即可
+      //由于<script>元素请求的脚本，直接作为代码运行。这时，只要浏览器定义了对应函数，
+      //该函数就会立即调用。作为参数的JSON数据被视为JavaScript对象，而不是字符串，因此避免了使用JSON.parse的步骤。
+      document.body.appendChild(script)
+    })
+  }
+
+  jsonp({    //调用JSONP
+    url: 'http://localhost:3000/say',
+    params: {wd: 'Iloveyou'},
+    callback: 'show'
+  }).then(data => {
+    console.log(data)
+  })
+</script>
+</body>
+</html>
