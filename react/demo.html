@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8"/>
+  <style>
+    @keyframes play {     /* 通过transform来启用GPU加速，跳过重排重绘阶段 */
+      0% {
+        transform: scaleX(0);  /* 用 scaleX 来代替 width */
+      }
+
+      to {
+        transform: scaleX(1);
+      }
+    }
+
+    @keyframes replay {
+      0% {
+        transform: scaleX(0);
+      }
+
+      to {
+        transform: scaleX(1);
+      }
+    }
+
+    .container {
+      height: 10px;
+      border-radius: 5px;
+      border: 1px solid black;
+    }
+
+    .progress {
+      height: 100%;
+      width: 100%;   /* 初始宽度为100%，因为我们要对其缩放 */
+      background-color: red;
+      will-change: transform;   /* 通过will-change告知浏览器提前做好优化准备 */
+      animation-timing-function: linear;
+      transform-origin: left;
+    }
+
+    .progress.play {
+      animation-play-state: running;
+    }
+
+    .progress.pause {
+      animation-play-state: paused;
+    }
+
+  </style>
+</head>
+<body>
+<div id="example"></div>
+
+<script src="https://unpkg.com/react@17/umd/react.development.js" crossorigin></script>
+<script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js" crossorigin></script>
+<script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+<script type="text/babel">
+  const { useEffect, useRef, useState, createRef } = window.React;
+
+  let totalTime = 3000  // 假设视频播放为3s
+
+  function App() {
+    const [isPlay, setIsPlay] = useState(false)  // 是否播放
+    const [count, setCount] = useState(0)  // 播放次数
+    const [type, setType] = useState(0)   // 使用哪个动画。0: @keyframes play; 1: @keyframes replay;
+
+    // 暂停 && 播放
+    const handleVideo = () => setIsPlay(!isPlay);
+
+    // 重播
+    const replay = () => {
+      setIsPlay(true)
+      setType(type ? 0 : 1)
+    }
+
+    // 动画结束时触发的事件
+    const end = () => {
+      setCount(count + 1)  // 播放次数 +1
+      replay()   // 重新开始播放
+    }
+
+    return (
+      <div id="root">
+        <button onClick={handleVideo}>{ isPlay ? '暂停' : '播放' }</button>
+        <button onClick={replay}>重播</button>
+        <span>{ `播放次数为：${count}` }</span>
+        <div className="container">
+          <div
+            className={`progress ${ isPlay ? 'play' : 'pause' }`}
+            style={{
+              animationDuration: `${totalTime}ms`,
+              animationName: `${ type ? 'play' : 'replay' }`
+            }}
+            onAnimationEnd={end}  // 动画结束时的事件
+          />
+        </div>
+      </div>
+    )
+  }
+
+
+  ReactDOM.render(
+    <App/>,
+    document.getElementById('example')
+  );
+</script>
+</body>
+</html>

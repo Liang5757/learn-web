@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>图片预览</title>
+    <style>
+        img[src=""] {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+<script type="text/javascript">
+  function showPreview_1 (source) {
+    var file = source.files[0];
+    if (window.FileReader) {
+      var fr = new FileReader();
+      fr.onloadend = function (e) {
+        document.getElementById("portrait").src = e.target.result;
+      };
+      fr.readAsDataURL(file);
+    }
+  }
+
+  function showPreview_2 (source) {
+    var file = source.files[0];
+    document.getElementById("preview").src = URL.createObjectURL(file);
+  }
+</script>
+
+<input type="file" name="file" onchange="showPreview_1(this)"/>
+<img id="portrait" src="" width="70" height="75" alt="">
+
+<input type="file" name="file" onchange="showPreview_2(this)"/>
+<img id="preview" src="" width="70" height="75" alt="">
+
+</body>
+</html>

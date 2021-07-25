@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div id="app">
+    <h2>{{title}}</h2>
+    <input v-model="name">
+    <h1>{{name}}</h1>
+    <button v-on:click="clickMe">click me!</button>
+</div>
+
+<script type="module">
+  import MyVue from "./init.js"
+
+  let vm = new MyVue({
+    el: '#app',
+    data: {
+      title: 'hello world',
+      name: 'canfoo'
+    },
+    methods: {
+      clickMe: function () {
+        this.title = 'hello world';
+      }
+    },
+  });
+
+  setTimeout(function () {
+    vm.title = '你好';
+  }, 2000);
+</script>
+</body>
+</html>
