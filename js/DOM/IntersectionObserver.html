@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    .box {
+    }
+
+    .header {
+      width: 100%;
+      height: 400px;
+      background-color: blue;
+      color: aliceblue;
+      font-size: 40px;
+      text-align: center;
+      line-height: 400px;
+      position: sticky;
+      top: 0;
+    }
+
+    .header img {
+      width: 100%;
+      height: 100%;
+    }
+
+    .reference {
+      width: 100%;
+      visibility: hidden;
+    }
+
+    .vbody {
+      width: 100%;
+      height: 400px;
+      background-color: red;
+      color: aliceblue;
+      font-size: 40px;
+      text-align: center;
+      line-height: 400px;
+      margin: 10px 0;
+    }
+  </style>
+</head>
+<body>
+
+<div class="box">
+  <div class="vbody">内容区域</div>
+  <div class="vbody">内容区域</div>
+  <div class="vbody">内容区域</div>
+  <div class="reference"></div>
+  <div class="header">吸顶区域</div>
+  <div class="vbody">内容区域</div>
+  <div class="vbody">内容区域</div>
+  <div class="vbody">内容区域</div>
+  <div class="vbody">内容区域</div>
+</div>
+
+<script>
+  const header = document.getElementsByClassName('header')[0];
+  const reference = document.getElementsByClassName('reference')[0];
+  // 回调函数
+  // const callback = (entries) => {
+  //   const myEntry = entries[0];
+  //   console.log(myEntry.isIntersecting);
+  //   if (!myEntry.isIntersecting) {
+  //     console.log('🚀🚀~ 触发了吸顶');
+  //     header.style.position = 'fixed';
+  //     header.style.top = '0px';
+  //   } else {
+  //     console.log('🚀🚀~ 取消吸顶');
+  //     header.style.position = 'relative';
+  //   }
+  // };
+  // // 配置对象
+  // const options = {
+  //   root: null,
+  //   rootMargin: '0px 0px 0px 0px',
+  //   threshold: [0, 1],
+  //   trackVisibility: true,
+  //   delay: 100
+  // };
+  // // 观察器实例
+  // const myObserver = new IntersectionObserver(callback, options);
+  // // 开始观察
+  // myObserver.observe(reference);
+</script>
+</body>
+</html>

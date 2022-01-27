@@ -165,7 +165,7 @@ const MyPromise = (function () {
       return new MyPromise((resolve, reject) => {
         promises.map((promise, index) => {
           // 给每个promise都注册回调
-          promise.then(data => {
+          Promise.resolve(promise).then(data => {
             // 处于resolve状态后, 把count加1
             count++;
             // 保存数据到数组中

@@ -3,27 +3,27 @@ const RESOLVED = "resolved";
 const REJECTED = "rejected";
 
 class MyPromise {
-  constructor(executor) {
+  constructor (executor) {
     this.state = PENDING;
     this.value = undefined;
     this.resolvedCallbacks = [];
     this.rejectedCallbacks = [];
-
+    
     const reject = value => {
       this.changeState(REJECTED, value, this.rejectedCallbacks);
     };
-
+    
     const resolve = value => {
       if (value instanceof MyPromise) {
         return value.then(resolve, reject);
       }
       this.changeState(RESOLVED, value, this.resolvedCallbacks);
     };
-
+    
     executor(resolve, reject);
   }
-
-  changeState(newState, value, callbackList) {
+  
+  changeState (newState, value, callbackList) {
     setTimeout(() => {
       if (this.state === PENDING) {
         this.state = newState;
@@ -35,8 +35,8 @@ class MyPromise {
       }
     }, 0);
   }
-
-  linkPromise(onFulfilled, onRejected) {
+  
+  linkPromise (onFulfilled, onRejected) {
     const that = this;
     if (that.state === RESOLVED) {
       return new MyPromise((resolve, reject) => {
@@ -47,7 +47,7 @@ class MyPromise {
         }
       });
     }
-
+    
     if (that.state === REJECTED) {
       return new MyPromise((resolve, reject) => {
         try {
@@ -57,7 +57,7 @@ class MyPromise {
         }
       });
     }
-
+    
     // 如果还是PENDING状态，也不能直接保存回调方法了，需要包一层来捕获错误
     if (that.state === PENDING) {
       return new MyPromise((resolve, reject) => {
@@ -78,17 +78,17 @@ class MyPromise {
       });
     }
   }
-
-  then(onFulfilled, onRejected) {
+  
+  then (onFulfilled, onRejected) {
     onFulfilled = typeof onFulfilled === "function" ? onFulfilled : v => v;
     onRejected = typeof onRejected === "function" ? onRejected : r => {
       throw r;
     };
-
+    
     return this.linkPromise(onFulfilled, onRejected);
   }
-
-  catch(onRejected) {
+  
+  catch (onRejected) {
     onRejected = typeof onRejected === "function" ? onRejected : r => {
       throw r;
     };
@@ -106,7 +106,6 @@ new Promise((resolve, reject) => {
   return 3;
 }).then(r => {
   console.log(r);
-})
-  .catch(err => {
-    console.log("err:", err);
-  });
+}).catch(err => {
+  console.log("err:", err);
+});

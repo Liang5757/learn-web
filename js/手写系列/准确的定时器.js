@@ -32,7 +32,6 @@ function countDown (fn, time) {
 
 countDown(function () {}, 10000)();
 
-//
 // function countDown (fn, time) {
 //   let startTime = new Date().getTime(), count = 0, second = 1000;
 //   let timeCounter = null;

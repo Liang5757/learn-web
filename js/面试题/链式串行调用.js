@@ -2,7 +2,7 @@ class Man {
   constructor (name) {
     this.name = name;
     this.arr = [];
-    console.log(`Hi this is ${name}`);
+    console.log(`This is ${name}`);
     
     const executor = i => {
       if (i < this.arr.length) {
@@ -12,7 +12,7 @@ class Man {
         });
       }
     }
-  
+    
     Promise.resolve().then(()=> {
       executor(0)
     }, 0);
@@ -51,5 +51,5 @@ class Man {
 
 
 
-// new Man("Hank").sleep(1).eat("supper").sleep(1).eat("me").sleepFirst(2);
-new Man("Hank").eat("supper").sleep(1).sleep(1).eat("me")
+new Man("Hank").sleep(1).eat("supper").sleep(1).eat("me").sleepFirst(2);
+// new Man("Hank").eat("supper").sleep(1).sleep(1).eat("me")
