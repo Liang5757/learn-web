@@ -1,33 +1,17 @@
-class Parent {
-  constructor (name = "Parent") {
-    this.name = "Parent";
-    this.rua = "qaq"
-  }
-  
-  getName() {
-    return this.name;
-  }
-  
-  getRua() {
-    return this.rua;
-  }
+function searchWord(s, t) {
+    const sLen = s.length, tLen = t.length;
+    const dp = new Array(tLen).fill(0);
+    for (let i = 0; i <= sLen; i++) {
+        let pre = 1;
+        for (let j = 0; j <= tLen; j++) {
+            let temp = dp[j + 1];
+            if (s[i] === t[j]) {
+                dp[j + 1] += pre;
+            }
+            pre = temp;
+        }
+    }
+    return dp[tLen - 1];
 }
-
-class Child extends Parent {
-  constructor (name = "Child", age = 16) {
-    super();
-    this.name = name;
-    this.age = age;
-  }
-  
-  getName() {
-    return this.name;
-  }
-  
-  getSuperName() {
-    return super.getName();
-  }
-}
-
-
-let child = new Child();
+const s = "rabbbit", t = "rabbit";
+console.log(searchWord(s, t));

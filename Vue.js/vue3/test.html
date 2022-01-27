@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<body>
+<div id="app">
+  <div ></div>
+</div>
+
+<script src="https://unpkg.com/vue@next"></script>
+<script>
+  Vue.createApp({
+    template: '<div>666</div>',
+    setup () {
+      let a = Vue.ref({
+        value: 1
+      });
+      const c = Vue.computed({
+        get() {
+          return a.value
+        },
+        set(v) {
+          a.value = v;
+        },
+      })
+      console.log(Vue.isRef(c))
+    }
+  }).mount('#app')
+</script>
+</body>
+</html>

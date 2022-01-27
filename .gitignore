@@ -1,12 +1,7 @@
-# 项目排除路径
-/JestTest/node_modules/
 /LearningJavaScriptDataStructuresandAlgorithmsThirdEdition_Code/examples/chapter01_02/typescript/hello-world.js
-/Node.js/express-demo/node_modules/
 /Node.js/爬虫/node_modules/
-/Node.js/石头剪刀布/node_modules/
 /node_modules/
 /Webpack/1.start/dist/
-/Webpack/1.start/node_modules/
 /Webpack/2.自定义loader/dist/
-/Webpack/2.自定义loader/force-strict-loader/node_modules/
-/Webpack/2.自定义loader/node_modules/
+node_modules
+.idea
