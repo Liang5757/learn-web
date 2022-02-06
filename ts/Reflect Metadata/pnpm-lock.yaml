@@ -1,0 +1,15 @@
+lockfileVersion: 5.3
+
+specifiers:
+  reflect-metadata: ^0.1.13
+
+dependencies:
+  reflect-metadata: registry.nlark.com/reflect-metadata/0.1.13
+
+packages:
+
+  registry.nlark.com/reflect-metadata/0.1.13:
+    resolution: {integrity: sha1-Z648pXyXKiqhZCsQ/jY/4y1J3Ag=, registry: https://registry.npm.taobao.org/, tarball: https://registry.nlark.com/reflect-metadata/download/reflect-metadata-0.1.13.tgz}
+    name: reflect-metadata
+    version: 0.1.13
+    dev: false
