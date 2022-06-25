@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>划词高亮</title>
+  <style>
+      .highlight {
+          background: #ff9;
+      }
+  </style>
+</head>
+<body>
+<p>Node.ELEMENT_NODE 1 元素节点</p>
+<p>Node.TEXT_NODE 3 Element或者Attr中实际的文</p>
+<p>Node.CDATA_SECTION_NODE 4 一个 CDATASection</p>
+<p>Node.PROCESSING_INSTRUCTION_NODE 7 一个用于XML文档的 ProcessingInstruction (en-US) ，例如 <?xml-stylesheet ... ?> 声明。</p>
+<p>Node.COMMENT_NODE 8 一个 Comment 节点。</p>
+<p>Node.DOCUMENT_NODE 9 一个 Document 节点。</p>
+<p>Node.DOCUMENT_TYPE_NODE 10 描述文档类型的 DocumentType 节点。例如 <!DOCTYPE html>  就是用于 HTML5 的。</p>
+<p>Node.DOCUMENT_FRAGMENT_NODE 11 一个 DocumentFragment 节点</p>
+
+<script>
+  const range = window.getSelection().getRangeAt(0);
+  const start = {
+    node: range.startContainer,
+    offset: range.startOffset // 选中的文本开头到元素开头的偏移量
+  };
+  const end = {
+    node: range.endContainer,
+    offset: range.endOffset // 选中的文本结尾到元素开头的偏移量
+  };
+
+  function getSelectedNodes (start, end) {
+    const selectedNodes = [];
+    // 首节点
+    if (curNode === $startNode) {
+      if (curNode.nodeType === 3) { // 如果是文本节点
+        curNode.splitText(startOffset);
+        const node = curNode.nextSibling;
+        selectedNodes.push(node);
+      }
+    }
+
+    // 尾节点
+    if (curNode === $endNode) {
+      if (curNode.nodeType === 3) {
+        const node = curNode;
+        node.splitText(endOffset);
+        selectedNodes.push(node);
+      }
+    }
+
+    if (curNode.nodeType === 3) {
+      selectedNodes.push(curNode);
+    }
+  }
+
+  // 使用上一步中封装的方法获取选区内的文本节点
+  const nodes = getSelectedNodes(start, end);
+
+  nodes.forEach(node => {
+    const wrap = document.createElement('span');
+    wrap.setAttribute('class', 'highlight');
+    wrap.appendChild(node.cloneNode(false));
+    node.parentNode.replaceChild(wrap);
+  });
+</script>
+</body>
+</html>

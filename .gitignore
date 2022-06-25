@@ -5,3 +5,6 @@
 /Webpack/2.×Ô¶¨Òåloader/dist/
 node_modules
 .idea
+.vscode
+*/.idea
+*/.vscode

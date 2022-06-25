@@ -12,37 +12,17 @@
 //
 // const b:A = document.createElement('div');
 
-class Animal {
-  feet: number;
-  constructor(name: string, numFeet: number) {}
+
+interface Part {
+  id: number;
+  name: string;
+  subparts: Part[];
+  updatePart(newName: string): void;
 }
 
-class Size {
-  feet: number;
-  constructor(meters: number) {}
-}
+type FunctionPropertyNames<T> = { [K in keyof T]: T[K] extends Function ? K : never }[keyof T]
 
-let a: Animal;
-let s: Size;
+type R = FunctionPropertyNames<Part>;
 
-a = s; // OK
-s = a; // OK
-
-
-class Dog extends Animal{
-  constructor (name: string, numFeet: number, type: string) {
-    super(name, numFeet);
-  }
-}
-
-let c = new Dog('Dog', 2, '½ð');
-let d = new Animal('Animal', 4)
-
-// c = d;
-d = c;
-
-let f1 = (a: Animal) => {}
-let f2 = (d: Dog) => {}
-
-f1 = f2;
-f2 = f1
+const r:R =  'updatePart';
+console.log(r)
