@@ -54,7 +54,6 @@ console.log(packMemset([[2, 3], [1, 2], [3, 4], [2, 2]], 5));
 
 // dp写法
 function packDp(item: Item, weight: number) {
-  debugger
   let dp: number[][] = [];
   for (let i = 0; i < item.length + 1; i++) {
     dp[i] = new Array(weight + 1).fill(0);
@@ -74,3 +73,18 @@ function packDp(item: Item, weight: number) {
 }
 
 console.log(packDp([[2, 3], [1, 2], [3, 4], [2, 2]], 5));
+
+// 重复利用数组优化dp
+function packDp2(item: Item, weight: number) {
+  let dp: number[] = new Array(weight + 1).fill(0);
+
+  for (let i = 0; i < item.length; i++) {
+    for (let j = weight; j >= item[i][0]; j--) {
+      dp[j] = Math.max(dp[j], dp[j - item[i][0]] + item[i][1]);
+    }
+  }
+
+  return dp[weight];
+}
+
+console.log(packDp2([[2, 3], [1, 2], [3, 4], [2, 2]], 5));
