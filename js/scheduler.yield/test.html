@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+<h1>Yielding demo</h1>
+<h2>Click the first button, then try the next two to see how different yielding strategies work.</h2>
+<button id="setinterval" tabindex="0">
+    Run blocking tasks periodically (click me first)
+</button>
+<button id="settimeout" tabindex="0">
+    Run loop, yielding with <code>setTimeout</code> on each iteration
+</button>
+<button id="schedulerdotyield" tabindex="0">
+    Run loop, yielding with <code>scheduler.yield</code> on each iteration
+</button>
+<button id="reload-demo" tabindex="0">
+    Reload demo
+</button>
+<div id="task-queue">
+    Task output will show up here.
+</div>
+</body>
+
+<script type="module">
+    /* global scheduler */
+    import { blockingTask } from "./utils/blocking-task.js";
+    import { yieldToMain } from "./utils/yield-to-main.js";
+
+    const TASK_OUTPUT = document.getElementById("task-queue");
+    const MAX_TASK_OUTPUT_LINES = 10;
+    let taskOutputLines = 0;
+    let intervalId;
+
+    function logTask (msg) {
+        if (taskOutputLines < MAX_TASK_OUTPUT_LINES) {
+            TASK_OUTPUT.innerHTML += `${msg}<br>`;
+            taskOutputLines++;
+        }
+    }
+
+    function clearTaskLog () {
+        TASK_OUTPUT.innerHTML = "";
+        taskOutputLines = 0;
+    }
+
+    async function runTaskQueueSetTimeout () {
+        if (typeof intervalId === "undefined") {
+            alert("Click the button to run blocking tasks periodically first.");
+
+            return;
+        }
+
+        clearTaskLog();
+
+        for (const item of [1, 2, 3, 4, 5]) {
+            blockingTask();
+            logTask(`Processing loop item ${item}`);
+
+            await yieldToMain();
+        }
+    }
+
+    async function runTaskQueueSchedulerDotYield () {
+        if (typeof intervalId === "undefined") {
+            alert("Click the button to run blocking tasks periodically first.");
+
+            return;
+        }
+
+        if ("scheduler" in window && "yield" in scheduler) {
+            clearTaskLog();
+
+            for (const item of [1, 2, 3, 4, 5]) {
+                blockingTask();
+                logTask(`Processing loop item ${item}`);
+
+                // 将当前其余任务延后执行（doesn't send the remaining work to the back of the queue, but rather to the front of it）
+                await scheduler.yield();
+            }
+        } else {
+            alert("scheduler.yield isn't available in this browser :(");
+        }
+    }
+
+    document.getElementById("setinterval").addEventListener("click", ({ target }) => {
+        clearTaskLog();
+
+        intervalId = setInterval(() => {
+            if (taskOutputLines < MAX_TASK_OUTPUT_LINES) {
+                blockingTask();
+
+                logTask("Ran blocking task via setInterval");
+            }
+        });
+
+        target.setAttribute("disabled", true);
+    }, {
+        once: true
+    });
+
+    document.getElementById("settimeout").addEventListener("click", runTaskQueueSetTimeout);
+
+    document.getElementById("schedulerdotyield").addEventListener("click", runTaskQueueSchedulerDotYield);
+
+    document.getElementById("reload-demo").addEventListener("click", () => {
+        location.reload();
+    });
+</script>
+</html>
