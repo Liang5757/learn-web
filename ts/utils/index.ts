@@ -1,7 +1,7 @@
 // T中剔除K中存在的
 type Diff<T, K> = T extends K ? never : T;
-type R1 = Diff<"a" | "b" | "c" | "d", "a" | "c" | "f">;  // "b" | "d"
-type test = Exclude<"a" | "b" | "c" | "d", "a" | "c" | "f">;  // "b" | "d"，内置函数
+type R1 = Diff<'a' | 'b' | 'c' | 'd', 'a' | 'c' | 'f'>;  // "b" | "d"
+type test = Exclude<'a' | 'b' | 'c' | 'd', 'a' | 'c' | 'f'>;  // "b" | "d"，内置函数
 
 // T中找到K中存在的
 type Filter<T, K> = T extends K ? T : never;
@@ -20,13 +20,17 @@ type R5 = TTuple[number]; // string | number
 
 // union 转 intersection 如: string | number -> string & number (PS: 利用函数参数的逆变)
 type UnionToIntersection<U> = (U extends any ? (k: U) => void : never) extends ((k: infer I) => void) ? I : never;
-interface test1 {} interface test2 {}
+
+interface test1 {}
+
+interface test2 {}
+
 type R6 = UnionToIntersection<test1 | test2>; // test1 & test2
 
 // LastInUnion<1 | 2> = 2
 type LastInUnion<U> = UnionToIntersection<
   U extends unknown ? (x: U) => 0 : never
-  > extends (x: infer L) => 0
+> extends (x: infer L) => 0
   ? L
   : never;
 
@@ -56,7 +60,7 @@ type R7 = DeepPartial<{
 type Compute<A extends any> = A extends Function
   ? A
   : { [K in keyof A]: A[K] }
-type R8 = Compute<{x: 'x'} & {y: 'y'}> // {x: "x", y: "y"}
+type R8 = Compute<{ x: 'x' } & { y: 'y' }> // {x: "x", y: "y"}
 type Merge<O1 extends object, O2 extends object> = Compute<O1 & Omit<O2, keyof O1>>
 
 // 取T和K的交集
@@ -71,7 +75,7 @@ type Overwrite<
   T extends object,
   U extends object,
   I = Diff<T, U> & Intersection<U, T>
-  > = Pick<I, keyof I>;
+> = Pick<I, keyof I>;
 // 方式二
 // type Overwrite<T, K> = { [U in keyof T]: U extends keyof K ? K[U] : T[U] };
 type Props2 = { name: string; age: number; visible: boolean };
@@ -82,3 +86,9 @@ type ReplacedProps = Overwrite<Props2, NewProps> // { name: string; age: string;
 type Mutable<T> = {
   -readonly [P in keyof T]: T[P]
 }
+
+// 限制值为正数
+declare const TYPE_TAG: unique symbol;
+type PositionValue = number & { [TYPE_TAG]: '_' };
+function doSomething(value: PositionValue) {}
+doSomething(0);
