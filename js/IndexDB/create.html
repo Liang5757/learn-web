@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<script>
+    // 第一个参数为数据库名，第二个参数为数据库版本
+    let request = window.indexedDB.open('mydb', 2);
+    request.onsuccess = e => {
+        // db 就是数据库容器
+        let db = e.target.result
+        // 使用 db 数据库容器，可以接着做一些数据处理 ...
+    }
+
+    request.onupgradeneeded = e => {
+        let db = e.target.result
+        let objectStore
+        // 如果不存在同名的 Store，就创建一个
+        if (!db.objectStoreNames.contains('mystore')) {
+            objectStore = db.createObjectStore('mystore', {keyPath: 'id'}) // keyPath必须存在在对象的键中，相当于主键
+        } else {
+            // 如果存在同名的 store，就直接取出来
+            objectStore = e.target.transaction.objectStore('mystore')
+        }
+    }
+
+    // 我们的客户数据看起来像这样。
+    const customerData = [
+        { ssn: "444-44-4444", name: "Bill", age: 35, email: "bill@company.com" },
+        { ssn: "555-55-5555", name: "Donna", age: 32, email: "donna@home.org" },
+    ];
+    request.onupgradeneeded = (event) => {
+        const db = event.target.result;
+        let objectStore
+
+        // 创建一个对象存储来存储我们客户的相关信息，我们将“ssn”作为键路径
+        // 因为 ssn 可以保证是不重复的——或至少在启动项目的会议上我们是这样被告知的。
+        if (!db.objectStoreNames.contains('mystore')) {
+            objectStore = db.createObjectStore("customers", { keyPath: "ssn" });
+        } else {
+            // 如果存在同名的 store，就直接取出来
+            objectStore = event.target.transaction.objectStore('customers')
+        }
+
+        // 创建一个索引以通过姓名来搜索客户。名字可能会重复，所以我们不能使用 unique 索引。
+        objectStore.createIndex("name", "name", { unique: false });
+
+        // 使用邮箱建立索引，我们想确保客户的邮箱不会重复，所以我们使用 unique 索引。
+        objectStore.createIndex("email", "email", { unique: true });
+
+        // 使用事务的 oncomplete 事件确保在插入数据前对象存储已经创建完毕。
+        objectStore.transaction.oncomplete = (event) => {
+            // 将数据保存到新创建的对象存储中。
+            const customerObjectStore = db
+                .transaction("customers", "readwrite")
+                .objectStore("customers");
+            customerData.forEach((customer) => {
+                customerObjectStore.add(customer);
+            });
+        };
+    };
+</script>
+</body>
+</html>
