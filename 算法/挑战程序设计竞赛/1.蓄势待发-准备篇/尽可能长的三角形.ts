@@ -1,4 +1,4 @@
-// 在数组中选出周长最长的三角形，输出最大周长
+// 在有序数组中选出周长最长的三角形，输出最大周长
 
 function maxPerimeterTriangle (arr: Array<number>) {
   arr.sort((a, b) => a - b);
